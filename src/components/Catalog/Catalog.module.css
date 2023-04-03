@@ -1,0 +1,38 @@
+.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.top {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+.title {
+    
+}
+
+.search {
+    border: 1px solid #F3F3F3;
+    border-radius: 10px;
+    display: flex;
+    padding: 0 15px;
+}
+.search input {
+    border: 0;
+    padding: 13px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    opacity: .5;
+}
+.search input:focus{
+    opacity: 1;
+    outline: none;
+}
+
+.search input:focus::placeholder {
+    color: transparent;
+  }
