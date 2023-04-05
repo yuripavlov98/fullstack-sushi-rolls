@@ -1,13 +1,13 @@
 import React from 'react';
 import s from './Basket.module.css'
 
-const Basket = () => {
+const Basket = (props) => {
     return (
-        <div style={{display: 'none'}} className={s.overlay}>
+        <div className={s.overlay}>
             <div className={s.basket}>
                 <div className={s.title}>
                     <h3>Корзина</h3>
-                    <img className={s.delete} width={32} height={32} src='/icons/del-basket.svg' alt='Удалить'/>
+                    <img onClick={props.onCloseBasket} className={s.delete} width={32} height={32} src='/icons/del-basket.svg' alt='Закрыть корзину'/>
                 </div>
                 <div className={s.items}>
                     <div className={s.item}>

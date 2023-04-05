@@ -17,6 +17,7 @@
     margin-right: 30px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .basket {
     margin-right: 10px;

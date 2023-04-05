@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Header.module.css'
 
 
-const Header = () => {
+const Header = (props) => {
     return (
         <div>
             <div className={s.header}>
@@ -14,7 +14,7 @@ const Header = () => {
                     </div>
                 </div>
                 <ul className={s.right}>
-                    <li className={s.list}>
+                    <li onClick={props.onClickBasket} className={s.list}>
                         <img className={s.basket} width={18} height={18} src='/icons/basket.svg' alt='корзина'/>
                         <span className={s.sum}>1205 руб.</span>
                     </li>
