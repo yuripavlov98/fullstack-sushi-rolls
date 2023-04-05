@@ -1,9 +1,14 @@
 import s from './Card.module.css'
-import React from 'react';
+import React, { useState } from 'react';
 
 
 const Card = (props) => {
-
+    const [isAdded, setIsAdded] = useState(false); //состояние для кнопки "добавить" в превью товара
+    
+    // функция для переключения состояния для кнопки "добавить" в превью товара
+    const handleButtonAdded = () => { 
+        setIsAdded(!isAdded) // переключение состояния кнопки "добавить"
+    }
     return (
         <div className={s.card}>
             <div className={s.wrapper}>
@@ -14,8 +19,8 @@ const Card = (props) => {
                     <span className={s.weight}>{props.weight} гр.</span>
                     <b className={s.price}>{props.price} руб.</b>
                 </div>
-                <button className={s.buttons}>
-                    <img className={s.add} width={32} height={32} src='/icons/none-added.svg' alt='добавить' />
+                <button onClick={handleButtonAdded} className={s.buttons}>
+                    <img className={s.add} width={32} height={32} src={isAdded ? '/icons/added.svg' : '/icons/none-added.svg'} alt='добавить' />
                 </button>
             </div>
         </div>

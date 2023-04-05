@@ -19,8 +19,8 @@ const Catalog = () => {
             </div>
             <div className={s.catalog}>
                 {
-                    arr.map((obj)=> (
-                        <Card name={obj.name} img={obj.img} alt={obj.alt} weight={obj.weight} price={obj.price}/>
+                    arr.map((obj, i)=> (
+                        <Card key={i} name={obj.name} img={obj.img} alt={obj.alt} weight={obj.weight} price={obj.price}/>
                     ))
                 }
             </div>
