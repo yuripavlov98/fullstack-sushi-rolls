@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import s from "./Catalog.module.css"
@@ -6,14 +7,21 @@ const Catalog = ({onAddToCard}) => {
     const [searchValue, setSearchValue] = useState(''); // состояние для фильтрации
     
     // берем товары через fetch
+    // useEffect(() => {
+    //     fetch('https://642d57c766a20ec9ce9ad524.mockapi.io/products')
+    //         .then(res => {
+    //             return res.json();
+    //         })
+    //         .then(json => {
+    //             setProducts(json);
+    //         })
+    // }, [])
+
+    // берем товары через axios
     useEffect(() => {
-        fetch('https://swamp-versed-nigella.glitch.me/db.json')
-            .then(res => {
-                return res.json();
-            })
-            .then(json => {
-                setProducts(json);
-            })
+        axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/products').then(res => {
+            setProducts(res.data)
+        })
     }, [])
 
     // функция для отслеживания инпута

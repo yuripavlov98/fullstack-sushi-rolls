@@ -115,3 +115,16 @@ b {
 .button:hover img {
     transform: translateX(10px);
 }
+
+.empty {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    margin: 20px 0 100px 0;
+}
+.arrBack {
+    position: absolute;
+    left: 50px;
+    top: 25px;
+    transition: transform .2s ease-in-out;
+}
