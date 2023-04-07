@@ -4,7 +4,7 @@
     border: 1px solid #F3F3F3;
     border-radius: 40px;
     background: #FFFFFF;
-    margin-bottom: 40px;
+    margin: 0 15px 40px 15px;
     transition: box-shadow .2s ease-in-out, transform .2s ease-in-out;
 }
 .card:hover {

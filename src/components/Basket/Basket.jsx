@@ -12,8 +12,8 @@ const Basket = ({ onCloseBasket, items = [] }) => {
                 </div>
                 <div className={s.items}>
                     {
-                        items.map((obj, i) => (
-                            <div className={s.item} key={i}>
+                        items.map((obj) => (
+                            <div className={s.item} key={obj.name}>
                                 <div className={s.info}>
                                     <img className={s.img} width={70} height={70} src={obj.img} alt={obj.alt}/>
                                     <div className={s.description}>

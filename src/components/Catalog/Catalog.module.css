@@ -1,7 +1,7 @@
 .catalog {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 .top {
     display: flex;
@@ -10,15 +10,14 @@
     justify-content: space-between;
     margin-bottom: 40px;
 }
-.title {
-    
-}
+
 
 .search {
     border: 1px solid #F3F3F3;
     border-radius: 10px;
     display: flex;
     padding: 0 15px;
+    position: relative;
 }
 .search input {
     border: 0;
@@ -36,3 +35,12 @@
 .search input:focus::placeholder {
     color: transparent;
   }
+.clear {
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    top: 13px;
+    right: 15px;
+    cursor: pointer;
+}

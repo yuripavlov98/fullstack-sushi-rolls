@@ -10,6 +10,7 @@ function App() {
 
   // функция добавления товара в корзину
   const onAddToCard = (obj) => {
+	// 
     setBasketItems(prev => [...prev, obj])
   }
 
@@ -20,8 +21,8 @@ function App() {
 				<Catalog onAddToCard={onAddToCard}/>
 				{basketOpened && (
 					<Basket onCloseBasket={() => setBasketOpened(false)}
-          items={basketItems}
-          />
+						items={basketItems}
+					/>
 				)}
 			</div>
 		</div>
