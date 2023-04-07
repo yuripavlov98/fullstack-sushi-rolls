@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import s from "./Catalog.module.css"
-const Catalog = () => {
-    const arr = [
-        { name: 'Филадельфия с огурцом', img: '/img/filadelfiya-s-ogurcom.jpg', alt: 'Филадельфия с огурцом', weight: 270, price: 599},
-        { name: 'Калифорния', img: '/img/kaliforniya.jpg', alt: 'Калифорния', weight: 210, price: 369},
-        { name: 'Сяке маки', img: '/img/syake-maki.jpg', alt: 'Сяке маки', weight: 130, price: 289},
-        { name: 'Каппа маки', img: '/img/kappa-maki.jpg', alt: 'Каппа маки', weight: 130, price: 129},
-    ]
+const Catalog = ({onAddToCard}) => {
+    const [products, setProducts] = useState([]); // состояние для карточек товаров
+    
+    // берем товары через fetch
+    useEffect(() => {
+        fetch('https://swamp-versed-nigella.glitch.me/db.json')
+            .then(res => {
+                return res.json();
+            })
+            .then(json => {
+                setProducts(json);
+            })
+    }, [])
+
+
+
 	return (
         <div>
             <div className={s.top}>
@@ -19,8 +28,8 @@ const Catalog = () => {
             </div>
             <div className={s.catalog}>
                 {
-                    arr.map((obj, i)=> (
-                        <Card key={i} name={obj.name} img={obj.img} alt={obj.alt} weight={obj.weight} price={obj.price}/>
+                    products.map((product, i)=> (
+                        <Card key={i} name={product.name} img={product.img} alt={product.alt} weight={product.weight} price={product.price} onAddToCard={(obj) => onAddToCard(obj)}/>
                     ))
                 }
             </div>

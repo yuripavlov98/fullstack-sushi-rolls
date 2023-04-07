@@ -43,6 +43,10 @@
     overflow: hidden;
     padding: 20px;
     margin-bottom: 20px;
+    justify-content: space-between;
+}
+.info {
+    display: flex;
 }
 .img {
     margin-right: 20px;
