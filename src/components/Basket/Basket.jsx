@@ -5,11 +5,13 @@ import axios from "axios";
 const Basket = ({ onCloseBasket, items = [], setItems, onRemoveFromCart }) => {
     
     // при открывании корзины получаем ранее добавленные товары
-    useEffect(() => {
-        axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/basket').then(res => {
-            setItems(res.data)
-        })
-    }, [])
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         const basketResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/basket')
+    //         setItems(basketResponse.data)
+    //     }
+    //     fetchData()
+    // }, [])
 
     return (
         <div className={s.overlay}>
@@ -21,7 +23,7 @@ const Basket = ({ onCloseBasket, items = [], setItems, onRemoveFromCart }) => {
                 {
                     items.length > 0 
                     ?
-                    <div>
+                    <div style={{overflow: 'auto'}}>
                         <div className={s.items}>
                         {
                             items.map((obj) => (

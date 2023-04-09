@@ -1,13 +1,15 @@
 import React from 'react';
 import s from './Header.module.css'
-
+import { Link } from "react-router-dom";
 
 const Header = (props) => {
     return (
         <div>
             <div className={s.header}>
                 <div className={s.left}>
-                    <img className={s.logo} width={40} height={40} src='/icons/logo.svg' alt='логотип'/>
+                    <Link to='/'>
+                        <img className={s.logo} width={40} height={40} src='/icons/logo.svg' alt='логотип'/>
+                    </Link>
                     <div>
                         <h3 className={s.title}>SUSHI & ROLLS</h3>
                         <p className={s.delivery}>Доставка суши и роллов</p>
@@ -19,7 +21,7 @@ const Header = (props) => {
                         <span className={s.sum}>1205 руб.</span>
                     </li>
                     <li className={s.list}>
-                        <img className={s.heart} width={18} height={18} src='/icons/heart.svg' alt='понравившиеся товары'/>
+                        {/* <img className={s.heart} width={18} height={18} src='/icons/heart.svg' alt='понравившиеся товары'/> */}
                         <img width={18} height={18} src='/icons/user.svg' alt='учетная запись'/>
                     </li>
                 </ul>

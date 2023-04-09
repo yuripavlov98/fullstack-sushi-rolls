@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Card from "../Card/Card";
+import Card from "../../components/Card/Card";
 import s from "./Catalog.module.css"
-const Catalog = ({onAddToCard}) => {
-    const [products, setProducts] = useState([]); // состояние для карточек товаров
+const Catalog = ({onAddToCard, basketItems, products}) => {
+    // const [products, setProducts] = useState([]); // состояние для карточек товаров
     const [searchValue, setSearchValue] = useState(''); // состояние для фильтрации
     
     // берем товары через fetch
@@ -18,11 +18,13 @@ const Catalog = ({onAddToCard}) => {
     // }, [])
 
     // берем товары через axios
-    useEffect(() => {
-        axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/products').then(res => {
-            setProducts(res.data)
-        })
-    }, [])
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         const productsResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/products')
+    //         setProducts(productsResponse.data)
+    //     }
+    //     fetchData()
+    // }, [])
 
     // функция для отслеживания инпута
     const onChangeSearchInput = (e) => {
@@ -42,7 +44,11 @@ const Catalog = ({onAddToCard}) => {
             <div className={s.catalog}>
                 {
                     products.filter(product => product.name.toLowerCase().includes(searchValue)).map((product)=> (
-                        <Card key={product.name} name={product.name} img={product.img} alt={product.alt} weight={product.weight} price={product.price} onAddToCard={(obj) => onAddToCard(obj)}/>
+                        <Card key={product.name}
+                        onAddToCard={(obj) => onAddToCard(obj)}
+                        addedToBasket={basketItems.some(obj => Number(obj.id) === Number(product.id))}
+                        {...product}
+                        />
                     ))
                 }
             </div>

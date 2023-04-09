@@ -2,12 +2,12 @@ import s from './Card.module.css'
 import React, { useState } from 'react';
 
 
-const Card = ({img, alt, name, weight, price, onAddToCard }) => {
-    const [isAdded, setIsAdded] = useState(false); //состояние для кнопки "добавить" в превью товара
+const Card = ({id, img, alt, name, weight, price, onAddToCard, addedToBasket = false }) => {
+    const [isAdded, setIsAdded] = useState(addedToBasket); //состояние для кнопки "добавить" в превью товара
     
     // функция для переключения состояния для кнопки "добавить" в превью товара
     const handleButtonAdded = () => { 
-        onAddToCard({img, alt, name, weight, price}); // добавляем товар в корзину
+        onAddToCard({id, img, alt, name, weight, price}); // добавляем товар в корзину
         setIsAdded(!isAdded) // переключение состояния кнопки "добавить"
     }
     return (
