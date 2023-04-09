@@ -2,10 +2,28 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card/Card";
 import s from "./Catalog.module.css"
-const Catalog = ({onAddToCard, basketItems, products}) => {
+const Catalog = ({onAddToCard, basketItems, products, isLoading}) => {
     // const [products, setProducts] = useState([]); // состояние для карточек товаров
     const [searchValue, setSearchValue] = useState(''); // состояние для фильтрации
     
+    const renderItems = () => {
+        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchValue))
+        return (isLoading 
+            ? 
+            // [...Array(10)]
+            Array(12).fill(<Card isLoading={isLoading}/>) 
+            : 
+            filteredProducts
+            .map((product)=> (
+                <Card key={product.name}
+                onAddToCard={(obj) => onAddToCard(obj)}
+                addedToBasket={basketItems.some(obj => (obj.name) === (product.name))}
+                isLoading={isLoading}
+                {...product}
+                />
+            )) 
+        )               
+    }
     // берем товары через fetch
     // useEffect(() => {
     //     fetch('https://642d57c766a20ec9ce9ad524.mockapi.io/products')
@@ -42,15 +60,7 @@ const Catalog = ({onAddToCard, basketItems, products}) => {
                 </div>
             </div>
             <div className={s.catalog}>
-                {
-                    products.filter(product => product.name.toLowerCase().includes(searchValue)).map((product)=> (
-                        <Card key={product.name}
-                        onAddToCard={(obj) => onAddToCard(obj)}
-                        addedToBasket={basketItems.some(obj => Number(obj.id) === Number(product.id))}
-                        {...product}
-                        />
-                    ))
-                }
+                {renderItems()}
             </div>
         </div>
 	);

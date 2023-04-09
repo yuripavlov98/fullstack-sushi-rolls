@@ -10,12 +10,16 @@ function App() {
 	const [products, setProducts] = useState([]); // состояние для карточек товаров
 	const [basketOpened, setBasketOpened] = useState(false); // состояние для переключения корзины
 	const [basketItems, setBasketItems] = useState([]); // добавление товаров в корзину
+	const [isLoading, setIsLoading] = useState(true); // для скелетона
 
 	// при открывании корзины получаем ранее добавленные товары
 	useEffect(() => {
         async function fetchData() {
             const basketResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/basket')
 			const productsResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/products')
+
+			setIsLoading(false)
+
 			setBasketItems(basketResponse.data)
             setProducts(productsResponse.data)
 
@@ -26,14 +30,14 @@ function App() {
 	// функция добавления товара в корзину
 	const onAddToCard = (obj) => {
 			// удалить товар из корзины в случае если товар с таким id уже есть в корзине
-			if (basketItems.find((item) => Number(item.id) === Number(obj.id))) {
-				axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${obj.id}`);
-				setBasketItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+			// if (basketItems.find((item) => Number(item.id) === Number(obj.id))) {
+			// 	axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${obj.id}`);
+			// 	setBasketItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
 
 				
-			// if (basketItems.find((item) => item.name === obj.name)) {
-			// 	setBasketItems((prev) => prev.filter((item) => item.name !== obj.name))
-			// 	axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${obj.id}`);
+			if (basketItems.find((item) => item.name === obj.name)) {
+				setBasketItems((prev) => prev.filter((item) => item.name !== obj.name))
+				axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${obj.id}`);
 			} else {
 				// отправка товара на сервер
 				axios.post("https://642d57c766a20ec9ce9ad524.mockapi.io/basket", obj);
@@ -64,7 +68,11 @@ function App() {
 							onRemoveFromCart={onRemoveFromCart}
 						/>
 					)}
-					<Catalog onAddToCard={onAddToCard} basketItems={basketItems} products={products}/>
+					<Catalog 
+					onAddToCard={onAddToCard} 
+					basketItems={basketItems} 
+					products={products}
+					isLoading={isLoading}/>
 
 				</div>
 			</div>
