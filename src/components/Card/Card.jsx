@@ -1,14 +1,17 @@
 import s from './Card.module.css'
 import React, { useState } from 'react';
 import ContentLoader from "react-content-loader"
+import { useContext } from 'react';
+import { Context } from '../../App';
 
-const Card = ({id, img, alt, name, weight, price, onAddToCard, addedToBasket = false, isLoading = false }) => {
-    const [isAdded, setIsAdded] = useState(addedToBasket); //состояние для кнопки "добавить" в превью товара
+const Card = ({id, img, alt, name, weight, price, onAddToCard, isLoading = false }) => {
+
+
+    const {isProductAdded} = useContext(Context) //контекст для кнопки "добавить" в превью товара
     
     // функция для переключения состояния для кнопки "добавить" в превью товара
     const handleButtonAdded = () => { 
         onAddToCard({id, img, alt, name, weight, price}); // добавляем товар в корзину
-        setIsAdded(!isAdded) // переключение состояния кнопки "добавить"
     }
     return (
         <div className={s.card}>
@@ -41,7 +44,7 @@ const Card = ({id, img, alt, name, weight, price, onAddToCard, addedToBasket = f
                                 <b className={s.price}>{price} руб.</b>
                             </div>
                             <button onClick={handleButtonAdded} className={s.buttons}>
-                                <img className={s.add} width={32} height={32} src={isAdded ? '/icons/added.svg' : '/icons/none-added.svg'} alt='добавить' />
+                                <img className={s.add} width={32} height={32} src={isProductAdded(id) ? '/icons/added.svg' : '/icons/none-added.svg'} alt='добавить' />
                             </button>
                         </div>
                     </div> 

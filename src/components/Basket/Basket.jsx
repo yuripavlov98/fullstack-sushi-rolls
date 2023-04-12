@@ -1,18 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './Basket.module.css'
 import axios from "axios";
+import { useContext } from 'react';
+import { Context } from '../../App';
+import BasketInfo from '../BasketInfo/BasketInfo';
 
-const Basket = ({ onCloseBasket, items = [], setItems, onRemoveFromCart }) => {
+const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
     
-    // при открывании корзины получаем ранее добавленные товары
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         const basketResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/basket')
-    //         setItems(basketResponse.data)
-    //     }
-    //     fetchData()
-    // }, [])
+    const [isOrderComplete, setIsOrderComplete] = useState(false);
 
+
+    const { basketItems, setBasketItems } = useContext(Context) // контекст для товаров в корзине
+
+    const onClickOrder = () => {
+        setIsOrderComplete(true)
+        setBasketItems([])
+        // axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket${id}`)
+    }
     return (
         <div className={s.overlay}>
             <div className={s.basket}>
@@ -21,12 +25,12 @@ const Basket = ({ onCloseBasket, items = [], setItems, onRemoveFromCart }) => {
                     <img onClick={onCloseBasket} className={s.delete} width={32} height={32} src='/icons/del-basket.svg' alt='Закрыть корзину'/>
                 </div>
                 {
-                    items.length > 0 
+                    basketItems.length > 0 
                     ?
-                    <div style={{overflow: 'auto'}}>
+                    <div style={{overflow: 'auto', flex: 1, display: 'flex', flexDirection: 'column'}}>
                         <div className={s.items}>
                         {
-                            items.map((obj) => (
+                            basketItems.map((obj) => (
                                 
                                 <div className={s.item} key={obj.name}>
                                     <div className={s.info}>
@@ -50,7 +54,7 @@ const Basket = ({ onCloseBasket, items = [], setItems, onRemoveFromCart }) => {
                                     <b>1098 руб.</b>
                                 </li>
                             </ul>
-                            <button className={s.button}>
+                            <button onClick={onClickOrder} className={s.button}>
                                 Оформить заказ
                                 <img width={13} height={12} src='/icons/array-basket.svg' alt='Продолжить'/>
                             </button>
@@ -58,14 +62,10 @@ const Basket = ({ onCloseBasket, items = [], setItems, onRemoveFromCart }) => {
                     </div>
 
                     :
-                    <div style={{display: 'flex', flex: 1, justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-                        <img width={64} height={32} src='/img/empty-cart.jpg' alt='Пустая корзина'/>
-                        <span className={s.empty}>Корзина пустая</span> 
-                        <button onClick={onCloseBasket} className={s.button}>
-                            <img className={s.arrBack} width={13} height={12} src='/icons/array-back-basket.svg' alt='Продолжить'/>
-                            Вернуться назад
-                        </button>
-                    </div>
+                    <BasketInfo 
+                    title={isOrderComplete ? "Заказ оформлен!" : 'Корзина пуста'} 
+                    description={isOrderComplete ? `Ваш заказ скоро будет передан курьерской доставке` : 'Нужно добавить товары'} 
+                    image={isOrderComplete ? '/img/complete.jpg' : '/img/empty-cart.jpg'}/>
 
                 }
 

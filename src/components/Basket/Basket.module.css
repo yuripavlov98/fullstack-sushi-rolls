@@ -18,8 +18,8 @@
     padding: 30px;
     display: flex;
     flex-direction: column;
-    
 }
+
 .title {
     display: flex;
     justify-content: space-between;

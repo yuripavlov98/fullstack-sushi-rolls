@@ -5,6 +5,10 @@ import Basket from "./components/Basket/Basket";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
+import { createContext } from "react";
+
+
+export const Context = createContext({});
 
 function App() {
 	const [products, setProducts] = useState([]); // состояние для карточек товаров
@@ -55,28 +59,33 @@ function App() {
 		setBasketItems((prev) => prev.filter((product) => product.id !== id));
 	};
 
-	return (
-		<Router>
-			<div className='wrapper'>
-				<div className='container'>
-					<Header onClickBasket={() => setBasketOpened(true)} />
-					{basketOpened && (
-						<Basket
-							onCloseBasket={() => setBasketOpened(false)}
-							items={basketItems}
-							setItems={setBasketItems}
-							onRemoveFromCart={onRemoveFromCart}
-						/>
-					)}
-					<Catalog 
-					onAddToCard={onAddToCard} 
-					basketItems={basketItems} 
-					products={products}
-					isLoading={isLoading}/>
 
+	const isProductAdded = (id) => {
+		return basketItems.some(obj => (obj.id) === (id))
+	}
+
+	return (
+		<Context.Provider value={{products, basketItems, isProductAdded, setBasketOpened, setBasketItems}}>
+			<Router>
+				<div className='wrapper'>
+					<div className='container'>
+						<Header onClickBasket={() => setBasketOpened(true)} />
+						{basketOpened && (
+							<Basket
+								onCloseBasket={() => setBasketOpened(false)}
+								setItems={setBasketItems}
+								onRemoveFromCart={onRemoveFromCart}
+							/>
+						)}
+						<Catalog 
+							onAddToCard={onAddToCard}  
+							isLoading={isLoading}
+						/>
+
+					</div>
 				</div>
-			</div>
-		</Router>
+			</Router>
+		</Context.Provider>
 	);
 }
 
