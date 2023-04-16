@@ -14,8 +14,9 @@ const Catalog = ({onAddToCard, isLoading}) => {
         return (
             isLoading 
             ? 
-            [...Array(10).fill(<Card isLoading={isLoading}/>)]
-            // Array(12).fill(<Card isLoading={isLoading}/>) 
+            Array.from({ length: 12 }, (_, index) => (
+                <Card key={`loading-${index}`} isLoading={isLoading}/>
+            ))
             : 
             filteredProducts
             .map((product)=> (

@@ -34,7 +34,7 @@ const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
                                 
                                 <div className={s.item} key={obj.name}>
                                     <div className={s.info}>
-                                        <img className={s.img} width={70} height={70} src={obj.img} alt={obj.alt}/>
+                                        <img className={s.img} width={70} height={70} src={process.env.REACT_APP_API_URL + obj.img} alt={obj.name}/>
                                         <div className={s.description}>
                                             <p className={s.name}>{obj.name}</p>
                                             <span className={s.weight}>{obj.weight} гр.</span><br/>

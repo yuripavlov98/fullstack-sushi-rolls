@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createContext } from "react";
+import { $host } from "./http";
+
 
 
 export const Context = createContext({});
@@ -19,13 +21,13 @@ function App() {
 	// при открывании корзины получаем ранее добавленные товары
 	useEffect(() => {
         async function fetchData() {
-            const basketResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/basket')
-			const productsResponse = await axios.get('https://642d57c766a20ec9ce9ad524.mockapi.io/products')
+			const basketResponse = await $host.get('api/basket_product')
+			const productsResponse = await $host.get('api/product')
 
 			setIsLoading(false)
 
 			setBasketItems(basketResponse.data)
-            setProducts(productsResponse.data)
+            setProducts(productsResponse.data.rows)
 
         }
         fetchData()
@@ -34,27 +36,30 @@ function App() {
 	// функция добавления товара в корзину
 	const onAddToCard = (obj) => {
 			// удалить товар из корзины в случае если товар с таким id уже есть в корзине
-			// if (basketItems.find((item) => Number(item.id) === Number(obj.id))) {
-			// 	axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${obj.id}`);
-			// 	setBasketItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+			if (basketItems.find((item) => Number(item.id) === Number(obj.id))) {
+				$host.delete(`api/basket_product/${obj.id}`);
+				setBasketItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
 
 				
-			if (basketItems.find((item) => item.name === obj.name)) {
-				setBasketItems((prev) => prev.filter((item) => item.name !== obj.name))
-				axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${obj.id}`);
+			// if (basketItems.find((item) => item.name === obj.name)) {
+			// 	setBasketItems((prev) => prev.filter((item) => item.name !== obj.name))
+			// 	$host.delete(`api/basket_product/${obj.id}`);
+
+
 			} else {
 				// отправка товара на сервер
-				axios.post("https://642d57c766a20ec9ce9ad524.mockapi.io/basket", obj);
+				$host.post("api/basket_product", obj);
 				// рендер товара в корзине
 				setBasketItems((prev) => [...prev, obj]);
 			}
+
 
 
 	};
 
 	// функция удаления товара из корзины
 	const onRemoveFromCart = (id) => {
-		axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket/${id}`);
+		$host.delete(`/api/basket_product/${id}`);
 		//
 		setBasketItems((prev) => prev.filter((product) => product.id !== id));
 	};
@@ -80,6 +85,7 @@ function App() {
 						<Catalog 
 							onAddToCard={onAddToCard}  
 							isLoading={isLoading}
+							
 						/>
 
 					</div>

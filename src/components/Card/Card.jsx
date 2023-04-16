@@ -4,14 +4,14 @@ import ContentLoader from "react-content-loader"
 import { useContext } from 'react';
 import { Context } from '../../App';
 
-const Card = ({id, img, alt, name, weight, price, onAddToCard, isLoading = false }) => {
+const Card = ({id, img, name, weight, price, onAddToCard, isLoading = false }) => {
 
 
     const {isProductAdded} = useContext(Context) //контекст для кнопки "добавить" в превью товара
     
     // функция для переключения состояния для кнопки "добавить" в превью товара
     const handleButtonAdded = () => { 
-        onAddToCard({id, img, alt, name, weight, price}); // добавляем товар в корзину
+        onAddToCard({id, img, name, weight, price}); // добавляем товар в корзину
     }
     return (
         <div className={s.card}>
@@ -36,7 +36,7 @@ const Card = ({id, img, alt, name, weight, price, onAddToCard, isLoading = false
                     </div>
                     :
                     <div className={s.wrapper}>
-                        <img className={s.img} width={130} height={110} src={img} alt={alt}/>
+                        <img className={s.img} width={130} height={110} src={process.env.REACT_APP_API_URL + img} alt={name}/>
                         <p className={s.name}>{name}</p>
                         <div className={s.info}>
                             <div className={s.count}>
