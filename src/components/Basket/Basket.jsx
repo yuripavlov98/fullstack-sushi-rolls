@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import s from './Basket.module.css'
-import axios from "axios";
 import { useContext } from 'react';
 import { Context } from '../../App';
 import BasketInfo from '../BasketInfo/BasketInfo';
+import { $host } from '../../http';
 
 const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
     
-    const [isOrderComplete, setIsOrderComplete] = useState(false);
-
-
     const { basketItems, setBasketItems } = useContext(Context) // контекст для товаров в корзине
+    const [isOrderComplete, setIsOrderComplete] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [orderId, setOrderId] = useState(null);
 
-    const onClickOrder = () => {
-        setIsOrderComplete(true)
-        setBasketItems([])
-        // axios.delete(`https://642d57c766a20ec9ce9ad524.mockapi.io/basket${id}`)
+    const onClickOrder = async () => {
+        try {
+            setIsLoading(true);
+            const {data} = await $host.post("api/orders", {basketItems}); // Отправка товаров из корзины в "заказы"
+            setOrderId(data.id)
+            setIsOrderComplete(true)
+            setBasketItems([])
+            await $host.delete("api/basket_product"); // Удаление товаров из корзины
+        } catch (e) {
+            alert('Не удалось создать заказ')
+        }
+        setIsLoading(false)
     }
     return (
         <div className={s.overlay}>
@@ -54,7 +62,7 @@ const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
                                     <b>1098 руб.</b>
                                 </li>
                             </ul>
-                            <button onClick={onClickOrder} className={s.button}>
+                            <button disabled={isLoading} onClick={onClickOrder} className={s.button}>
                                 Оформить заказ
                                 <img width={13} height={12} src='/icons/array-basket.svg' alt='Продолжить'/>
                             </button>
@@ -64,7 +72,7 @@ const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
                     :
                     <BasketInfo 
                     title={isOrderComplete ? "Заказ оформлен!" : 'Корзина пуста'} 
-                    description={isOrderComplete ? `Ваш заказ скоро будет передан курьерской доставке` : 'Нужно добавить товары'} 
+                    description={isOrderComplete ? `Ваш заказ №${orderId} скоро будет передан курьерской доставке` : 'Нужно добавить товары'} 
                     image={isOrderComplete ? '/img/complete.jpg' : '/img/empty-cart.jpg'}/>
 
                 }

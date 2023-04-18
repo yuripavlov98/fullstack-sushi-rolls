@@ -3,7 +3,6 @@ import Catalog from "./pages/Catalog/Catalog";
 import "./index.css";
 import Basket from "./components/Basket/Basket";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 import { createContext } from "react";
 import { $host } from "./http";

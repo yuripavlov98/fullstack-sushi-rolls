@@ -93,6 +93,10 @@ b {
     cursor: pointer;
     position: relative;
 }
+.button:disabled {
+    background-color: #bebebe;
+    cursor: default;
+}
 .sum {
     display: flex;
     align-items: center;
