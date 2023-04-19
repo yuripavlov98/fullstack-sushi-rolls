@@ -12,6 +12,8 @@ const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [orderId, setOrderId] = useState(null);
 
+    const totalPrice = (basketItems.reduce((sum, obj) => obj.price + sum, 0))
+
     const onClickOrder = async () => {
         try {
             setIsLoading(true);
@@ -59,7 +61,7 @@ const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
                                 <li className={s.sum}>
                                     <span>Итого:</span>
                                     <div className={s.dashed}></div>
-                                    <b>1098 руб.</b>
+                                    <b>{totalPrice === 0 ? 'Корзина пуста' : totalPrice + ' руб.'}</b>
                                 </li>
                             </ul>
                             <button disabled={isLoading} onClick={onClickOrder} className={s.button}>

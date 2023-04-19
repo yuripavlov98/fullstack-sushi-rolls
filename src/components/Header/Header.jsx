@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import s from './Header.module.css'
 import { Link } from "react-router-dom";
+import { Context } from '../../App';
 
 const Header = (props) => {
+
+    const { basketItems } = useContext(Context);
+    const totalPrice = (basketItems.reduce((sum, obj) => obj.price + sum, 0))
     return (
         <div>
             <div className={s.header}>
@@ -18,7 +22,7 @@ const Header = (props) => {
                 <ul className={s.right}>
                     <li onClick={props.onClickBasket} className={s.list}>
                         <img className={s.basket} width={18} height={18} src='/icons/basket.svg' alt='корзина'/>
-                        <span className={s.sum}>1205 руб.</span>
+                        <span className={s.sum}>{totalPrice === 0 ? 'Корзина пуста' : totalPrice + ' руб.'}</span>
                     </li>
                     <li className={s.list}>
                         {/* <img className={s.heart} width={18} height={18} src='/icons/heart.svg' alt='понравившиеся товары'/> */}
