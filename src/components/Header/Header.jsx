@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import s from './Header.module.css'
 import { Link } from "react-router-dom";
 import { Context } from '../../App';
+import { useBasket } from '../hooks/useBasket';
 
 const Header = (props) => {
 
-    const { basketItems } = useContext(Context);
-    const totalPrice = (basketItems.reduce((sum, obj) => obj.price + sum, 0))
+    const {totalPrice} = useBasket();
     return (
         <div>
             <div className={s.header}>

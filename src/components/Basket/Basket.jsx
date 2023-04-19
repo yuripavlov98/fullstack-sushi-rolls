@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import s from './Basket.module.css'
-import { useContext } from 'react';
-import { Context } from '../../App';
 import BasketInfo from '../BasketInfo/BasketInfo';
 import { $host } from '../../http';
+import { useBasket } from '../hooks/useBasket';
 
 const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
     
-    const { basketItems, setBasketItems } = useContext(Context) // контекст для товаров в корзине
+    const {basketItems, setBasketItems, totalPrice} = useBasket();
     const [isOrderComplete, setIsOrderComplete] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [orderId, setOrderId] = useState(null);
 
-    const totalPrice = (basketItems.reduce((sum, obj) => obj.price + sum, 0))
+    
 
     const onClickOrder = async () => {
         try {
