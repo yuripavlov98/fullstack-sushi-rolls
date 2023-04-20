@@ -3,9 +3,10 @@ import Catalog from "./pages/Catalog/Catalog";
 import "./index.css";
 import Basket from "./components/Basket/Basket";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { createContext } from "react";
 import { $host } from "./http";
+import Orders from "./pages/Orders/Orders";
 
 
 
@@ -69,7 +70,7 @@ function App() {
 	}
 
 	return (
-		<Context.Provider value={{products, basketItems, isProductAdded, setBasketOpened, setBasketItems}}>
+		<Context.Provider value={{products, basketItems, isProductAdded, setBasketOpened, setBasketItems, onAddToCard}}>
 			<Router>
 				<div className='wrapper'>
 					<div className='container'>
@@ -81,12 +82,10 @@ function App() {
 								onRemoveFromCart={onRemoveFromCart}
 							/>
 						)}
-						<Catalog 
-							onAddToCard={onAddToCard}  
-							isLoading={isLoading}
-							
-						/>
-
+						<Routes>
+							<Route path='/' element={<Catalog isLoading={isLoading} />} />
+							<Route path='/orders' element={<Orders />} />
+						</Routes>
 					</div>
 				</div>
 			</Router>

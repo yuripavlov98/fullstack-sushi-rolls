@@ -3,7 +3,8 @@ import { useContext } from "react";
 import { Context } from "../../App";
 import Card from "../../components/Card/Card";
 import s from "./Catalog.module.css"
-const Catalog = ({onAddToCard, isLoading}) => {
+const Catalog = ({isLoading}) => {
+    const {onAddToCard} = useContext(Context);
     
     const [searchValue, setSearchValue] = useState(''); // состояние для фильтрации
 

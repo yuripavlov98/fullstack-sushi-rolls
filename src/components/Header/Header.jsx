@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import s from './Header.module.css'
 import { Link } from "react-router-dom";
-import { Context } from '../../App';
 import { useBasket } from '../hooks/useBasket';
 
 const Header = (props) => {
@@ -26,7 +25,9 @@ const Header = (props) => {
                     </li>
                     <li className={s.list}>
                         {/* <img className={s.heart} width={18} height={18} src='/icons/heart.svg' alt='понравившиеся товары'/> */}
-                        <img width={18} height={18} src='/icons/user.svg' alt='учетная запись'/>
+                        <Link to='/orders'>
+                            <img width={18} height={18} src='/icons/user.svg' alt='Заказы'/>
+                        </Link>
                     </li>
                 </ul>
             </div>
