@@ -44,3 +44,7 @@
     right: 15px;
     cursor: pointer;
 }
+
+.banner {
+    border-radius: 15px;
+}

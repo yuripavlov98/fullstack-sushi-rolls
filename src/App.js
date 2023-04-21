@@ -8,8 +8,6 @@ import { createContext } from "react";
 import { $host } from "./http";
 import Orders from "./pages/Orders/Orders";
 
-
-
 export const Context = createContext({});
 
 function App() {
@@ -20,70 +18,79 @@ function App() {
 
 	// при открывании корзины получаем ранее добавленные товары
 	useEffect(() => {
-        async function fetchData() {
-			const basketResponse = await $host.get('api/basket_product')
-			const productsResponse = await $host.get('api/product')
-
-			setIsLoading(false)
-
-			setBasketItems(basketResponse.data)
-            setProducts(productsResponse.data.rows)
-
-        }
-        fetchData()
-    }, [])
+		async function fetchData() {
+			try {
+				const [basketResponse, productsResponse] = await Promise.all([$host.get("api/basket_product"), $host.get("api/product")])
+				setIsLoading(false);
+				setBasketItems(basketResponse.data);
+				setProducts(productsResponse.data.rows);
+			} catch (error) {
+				alert('Ошибка при получении данных')
+			}
+		}
+		fetchData();
+	}, []);
 
 	// функция добавления товара в корзину
-	const onAddToCard = (obj) => {
+	const onAddToCard = async (obj) => {
+		try {
 			// удалить товар из корзины в случае если товар с таким id уже есть в корзине
 			if (basketItems.find((item) => Number(item.id) === Number(obj.id))) {
-				$host.delete(`api/basket_product/${obj.id}`);
-				setBasketItems((prev) => prev.filter((item) => Number(item.id) !== Number(obj.id)));
-
-				
-			// if (basketItems.find((item) => item.name === obj.name)) {
-			// 	setBasketItems((prev) => prev.filter((item) => item.name !== obj.name))
-			// 	$host.delete(`api/basket_product/${obj.id}`);
-
-
+				setBasketItems((prev) =>
+				prev.filter((item) => Number(item.id) !== Number(obj.id)));
+				await $host.delete(`api/basket_product/${obj.id}`)
 			} else {
-				// отправка товара на сервер
-				$host.post("api/basket_product", obj);
 				// рендер товара в корзине
 				setBasketItems((prev) => [...prev, obj]);
+				// отправка товара на сервер
+				await $host.post("api/basket_product", obj);
 			}
-
-
-
+		} catch (error) {
+			alert('Ошибка при добавлении товара в корзину')
+		}
 	};
 
 	// функция удаления товара из корзины
 	const onRemoveFromCart = (id) => {
-		$host.delete(`/api/basket_product/${id}`);
-		//
-		setBasketItems((prev) => prev.filter((product) => product.id !== id));
+		try {
+			$host.delete(`/api/basket_product/${id}`);
+			//
+			setBasketItems((prev) => prev.filter((product) => product.id !== id));
+		} catch (error) {
+			alert('Ошибка при удалении товара из корзины')
+		}
 	};
 
-
 	const isProductAdded = (id) => {
-		return basketItems.some(obj => (obj.id) === (id))
-	}
+		return basketItems.some((obj) => obj.id === id);
+	};
 
 	return (
-		<Context.Provider value={{products, basketItems, isProductAdded, setBasketOpened, setBasketItems, onAddToCard}}>
+		<Context.Provider
+			value={{
+				products,
+				basketItems,
+				isProductAdded,
+				setBasketOpened,
+				setBasketItems,
+				onAddToCard,
+			}}
+		>
 			<Router>
 				<div className='wrapper'>
 					<div className='container'>
 						<Header onClickBasket={() => setBasketOpened(true)} />
-						{basketOpened && (
-							<Basket
-								onCloseBasket={() => setBasketOpened(false)}
-								setItems={setBasketItems}
-								onRemoveFromCart={onRemoveFromCart}
-							/>
-						)}
+						<Basket
+							onCloseBasket={() => setBasketOpened(false)}
+							setItems={setBasketItems}
+							onRemoveFromCart={onRemoveFromCart}
+							opened={basketOpened}
+						/>
 						<Routes>
-							<Route path='/' element={<Catalog isLoading={isLoading} />} />
+							<Route
+								path='/'
+								element={<Catalog isLoading={isLoading} />}
+							/>
 							<Route path='/orders' element={<Orders />} />
 						</Routes>
 					</div>

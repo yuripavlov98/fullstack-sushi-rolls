@@ -2,6 +2,7 @@ html {
     box-sizing: border-box;
     position: relative;
     overflow-x: hidden;
+    height: 100%;
   }
   
   *,
@@ -15,9 +16,9 @@ html {
     min-height: 100vh;
     background-color: #f7f7f7;
     color: #000000;
-    position: relative;
     overflow-x: hidden;
     margin: 0;
+    height: 100%;
   }
   
   img,

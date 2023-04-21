@@ -4,7 +4,7 @@ import BasketInfo from '../BasketInfo/BasketInfo';
 import { $host } from '../../http';
 import { useBasket } from '../hooks/useBasket';
 
-const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
+const Basket = ({ onCloseBasket, onRemoveFromCart, opened }) => {
     
     const {basketItems, setBasketItems, totalPrice} = useBasket();
     const [isOrderComplete, setIsOrderComplete] = useState(false);
@@ -27,7 +27,7 @@ const Basket = ({ onCloseBasket, onRemoveFromCart }) => {
         setIsLoading(false)
     }
     return (
-        <div className={s.overlay}>
+        <div className={`${s.overlay} ${opened ? s.overlayVisible : ''}`}>
             <div className={s.basket}>
                 <div className={s.title}>
                     <h3>Корзина</h3>
